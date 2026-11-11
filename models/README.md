@@ -1,11 +1,7 @@
-# Model artefacts
+# Model artifact
 
-This directory is reserved for the fitted and evaluated model pipeline.
+The selected preliminary Random Forest pipeline is generated locally as `credit_default_pipeline.joblib`; it includes preprocessing and estimator. Recreate it using `python src/train_model.py` after preparing the data.
 
-The team should only add an artefact after:
-1. Training and evaluation have been completed.
-2. The selected model and decision threshold have been documented.
-3. The complete preprocessing-and-model pipeline has been saved together.
-4. A fresh-process loading and prediction test has passed.
+The binary artifact is not included in this GitHub text commit. The app keeps Prediction disabled until the trusted artifact and metadata are present. Do not deploy the Prediction page before loading and testing the model.
 
-Record the model version, training data reference, feature schema, package versions, evaluation summary, and known limitations. Never place credentials or confidential customer data in this directory.
+The score is not separately calibrated. Joblib/pickle should only load trusted files because deserialisation can execute code.

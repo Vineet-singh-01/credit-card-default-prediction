@@ -1,84 +1,88 @@
-# Credit Card Default Prediction Using Machine Learning
+# Credit Card Default Prediction – CreditRisk Analytics
 
-**MBA Business Analytics group project | Finance & Banking | Work in progress**
+MBA Business Analytics project: estimate next-month credit-card default risk as a **human-review decision-support signal**, not an automated credit decision.
 
-## Project overview
+**Dataset:** UCI Default of Credit Card Clients · [UCI dataset page](https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients) · DOI [10.24432/C55S3H](https://doi.org/10.24432/C55S3H) · CC BY 4.0.
 
-This project will develop a machine-learning decision-support prototype to estimate whether a credit-card customer is likely to default on the next month's payment. The work connects financial risk analysis, exploratory data analysis, supervised classification, model evaluation, and an interactive Streamlit application.
+## Verified dataset audit
 
-The system is intended to support credit-risk review. A model score is not, by itself, a credit approval, rejection, or collections decision; any operational decision would require human review and appropriate fairness, privacy, and governance controls.
+The user-provided workbook was inspected. It contains 30,000 observations and 25 columns: ID, 23 predictors, and target `default payment next month`. The actual field names are on spreadsheet row 2; row 1 contains generic X1–X23/Y labels.
 
-## Dataset
+- Missing cells: **0**
+- Exact duplicate rows: **0**
+- Unique IDs: **30,000**
+- No default (0): **23,364 (77.88%)**
+- Default (1): **6,636 (22.12%)**
+- ID is excluded from predictors.
 
-We have selected the **Default of Credit Card Clients** dataset from the UCI Machine Learning Repository.
+## Preliminary held-out test results
 
-- **Official source:** https://archive.ics.uci.edu/dataset/350/default%2Bof%2Bcredit%2Bcard%2Bclients
-- **Dataset DOI:** https://doi.org/10.24432/C55S3H
-- **Source-reported records:** 30,000
-- **Predictors:** 23 explanatory variables, plus a customer ID field
-- **Target:** `default payment next month` (1 = default; 0 = no default)
-- **Task:** Supervised binary classification
-- **Context:** Historical credit-card data from Taiwan, covering 2005.
+Candidates were compared on a validation set. Random Forest was selected using default-class F1 (ROC-AUC tie-break), refitted on the 24,000-record development set, then evaluated once on a separate 6,000-record test set. Threshold: 0.50.
 
-The dataset is historical and geographically specific. Results must not be presented as representative of current Indian borrowers or today's lending market. Refer to the UCI source for the dataset description, variable definitions, and licence terms. Attribution will be retained in project documentation.
+| Metric | Test result |
+|---|---:|
+| Accuracy | 79.32% |
+| Precision – default | 53.17% |
+| Recall – default | 54.41% |
+| F1 – default | 0.538 |
+| ROC-AUC | 0.774 |
+| Average precision | 0.552 |
+| Brier score | 0.156 |
 
-## Project objectives
+Confusion matrix: TN=4,037, FP=636, FN=605, TP=722. The model misses 45.6% of actual defaulters at this cutoff. A bank should not use this threshold without a documented cost analysis.
 
-1. Understand the credit-risk business problem and dataset.
-2. Inspect and prepare the data, documenting quality checks and leakage risks.
-3. Explore repayment behaviour and customer-level patterns through EDA.
-4. Establish an interpretable baseline and compare suitable classification models.
-5. Evaluate model performance using metrics relevant to default detection and business error costs.
-6. Save a reproducible preprocessing-and-model pipeline.
-7. Build a three-page Streamlit application: Business Overview, Data Insights, and Prediction.
-8. Document the work and deploy the application for demonstration.
+## EDA findings (associations, not causation)
 
-## Planned workflow
+- The default class is 22.12% of the sample; accuracy alone is inadequate.
+- PAY_0=2 has a 69.14% observed default rate (2,667 accounts); PAY_0=0 has 12.81% (14,737 accounts). Rare PAY_0 codes have small sample sizes.
+- The <=50k credit-limit band has 31.79% observed default rate; the >300k band has 13.26%.
+- These group differences do not establish causal relationships.
 
-Business problem → dataset verification → data preparation → EDA → feature engineering → model training → evaluation → business interpretation → model persistence → Streamlit → GitHub → cloud deployment.
+## Scope and limitations
 
-## Repository structure
+The data represent Taiwan in 2005, not current Indian borrowers or modern lending portfolios. Demographic fields are present. Complete a no-demographics sensitivity model and fairness review before any real-world use. Model scores are not separately calibrated probabilities. The 0.50 threshold is technical, not business-approved. No production or external validation has been performed.
 
-```text
-credit-card-default-prediction/
-├── data/                 # Dataset guidance; data files handled separately
-├── notebooks/            # Data inspection, EDA, and model development
-├── models/               # Evaluated model artefacts (added after training)
-├── images/               # Project visualisations and application screenshots
-├── app.py                # Streamlit application (to be developed)
-├── requirements.txt      # Verified project dependencies (to be added)
-├── README.md
-└── .gitignore
+## Repository contents
+
+```
+app.py
+requirements.txt
+src/prepare_data.py
+src/train_model.py
+notebooks/
+models/model_metadata.json
+reports/
 ```
 
-## Current status
+The original workbook, customer-level CSV and binary joblib model are not in this GitHub commit. This avoids publishing customer-level data or a large pickle through the text-file publishing route. Download the data from UCI and follow `data/README.md`. The Prediction page stays disabled until the trusted model artifact is added.
 
-- [x] Business problem selected
-- [x] UCI dataset selected
-- [ ] Download and inspect the actual dataset
-- [ ] Complete data-quality checks and cleaning
-- [ ] Complete EDA and business interpretation
-- [ ] Train and compare baseline and candidate models
-- [ ] Evaluate model and select decision threshold
-- [ ] Save and test the fitted pipeline
-- [ ] Develop and test Streamlit pages
-- [ ] Finalise dependencies and documentation
-- [ ] Deploy and verify the live application
+## Run locally
 
-No model has been trained yet. No model-performance figures or dataset-specific business findings are claimed in this repository at this stage.
+```bash
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-## Tools planned
+1. Download the UCI Excel workbook; save as `data/default_of_credit_card_clients.xlsx`.
+2. Run `python src/prepare_data.py`.
+3. Run `python src/train_model.py`.
+4. Copy the resulting `models/credit_default_pipeline.joblib` from your local project package (or regenerate it).
+5. Run `streamlit run app.py`.
 
-Python, Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, Joblib, and Streamlit. The final dependency list and versions will be recorded after the implementation environment is tested.
+## Deployment
 
-## Academic use and limitations
+After the binary model artifact is present and locally tested, deploy from [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`. Do not claim deployment until the public app and prediction flow have been tested.
 
-This is an educational prototype, not a production credit-scoring system. Model performance may be affected by historical context, population differences, class imbalance, data limitations, and changes in credit behaviour. Predictions should be interpreted alongside validation results, fairness assessment, and human judgement.
+## Five-member work plan
 
-## Team
+| Member | Lead |
+|---|---|
+| 1 | Business problem and dataset source |
+| 2 | Data audit and EDA |
+| 3 | ML development and reproducibility |
+| 4 | Evaluation, thresholds, fairness and business interpretation |
+| 5 | Streamlit, GitHub, report coordination and deployment |
 
-MBA Business Analytics group project (5 members). Team member names and individual contributions can be added by the group.
-
-## Running the application
-
-The application is not available yet. Instructions will be added after `app.py`, the evaluated model pipeline, and the dependency file have been developed and tested.
+Every member must understand the complete workflow and be able to defend the decisions. This is an academic prototype, not an approved credit decision system.
