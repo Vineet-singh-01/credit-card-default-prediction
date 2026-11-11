@@ -107,3 +107,26 @@ Deploy on [Streamlit Community Cloud](https://share.streamlit.io/): repository `
 | 5 | Streamlit, GitHub and deployment |
 
 All members should understand the full workflow and defend each decision. This is an academic prototype, not an approved credit decision system.
+
+## React + FastAPI application (new interface)
+
+The modern React dashboard is provided alongside the original Streamlit app. The saved Random Forest model and original preprocessing pipeline are reused without retraining.
+
+**Backend (repository root):**
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r backend/requirements-dev.txt
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+**Frontend (second terminal):**
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173. FastAPI documentation is available at http://127.0.0.1:8000/docs. See `docs/REACT_FRONTEND_UPGRADE.md` for architecture, testing, deployment and limitations. The GitHub Actions workflow builds the React app and tests the backend plus the saved model artifact.

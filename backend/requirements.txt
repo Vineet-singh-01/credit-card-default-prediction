@@ -1,0 +1,6 @@
+# Keep these versions aligned with the original model-build environment.
+fastapi==0.162.4
+uvicorn[standard]>=0.35,<1
+numpy==2.3.5
+scikit-learn==1.8.0
+joblib==1.5.3
