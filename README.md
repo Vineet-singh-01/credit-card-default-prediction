@@ -6,18 +6,18 @@ MBA Business Analytics project: estimate next-month credit-card default risk as 
 
 ## Verified dataset audit
 
-The user-provided workbook was inspected. It contains 30,000 observations and 25 columns: ID, 23 predictors, and target `default payment next month`. The actual field names are on spreadsheet row 2; row 1 contains generic X1–X23/Y labels.
+The user-provided workbook was inspected. It contains 30,000 observations and 25 columns: ID, 23 predictors and target `default payment next month`. Actual field names are on spreadsheet row 2; row 1 contains generic X1–X23/Y labels.
 
 - Missing cells: **0**
 - Exact duplicate rows: **0**
 - Unique IDs: **30,000**
 - No default (0): **23,364 (77.88%)**
 - Default (1): **6,636 (22.12%)**
-- ID is excluded from predictors.
+- ID excluded from predictors.
 
 ## Preliminary held-out test results
 
-Candidates were compared on a validation set. Random Forest was selected using default-class F1 (ROC-AUC tie-break), refitted on the 24,000-record development set, then evaluated once on a separate 6,000-record test set. Threshold: 0.50.
+Candidates were compared on a validation set. Random Forest was selected using default-class F1 (ROC-AUC tie-break), refitted on the 24,000-record development set, and evaluated once on a separate 6,000-record test set. Threshold: 0.50.
 
 | Metric | Test result |
 |---|---:|
@@ -29,18 +29,18 @@ Candidates were compared on a validation set. Random Forest was selected using d
 | Average precision | 0.552 |
 | Brier score | 0.156 |
 
-Confusion matrix: TN=4,037, FP=636, FN=605, TP=722. The model misses 45.6% of actual defaulters at this cutoff. A bank should not use this threshold without a documented cost analysis.
+Confusion matrix: TN=4,037, FP=636, FN=605, TP=722. At this cutoff, the model misses 45.6% of actual defaulters. A financial institution must not use this cutoff without an explicit cost analysis.
 
-## EDA findings (associations, not causation)
+## EDA observations (association, not causation)
 
-- The default class is 22.12% of the sample; accuracy alone is inadequate.
-- PAY_0=2 has a 69.14% observed default rate (2,667 accounts); PAY_0=0 has 12.81% (14,737 accounts). Rare PAY_0 codes have small sample sizes.
-- The <=50k credit-limit band has 31.79% observed default rate; the >300k band has 13.26%.
-- These group differences do not establish causal relationships.
+- Default class is 22.12%; accuracy alone is inadequate.
+- PAY_0=2 has 69.14% observed default rate (2,667 accounts); PAY_0=0 has 12.81% (14,737 accounts). Rare codes have small samples.
+- The <=50k credit-limit band has 31.79% observed default rate; >300k has 13.26%.
+- These associations do not establish causal effects.
 
-## Scope and limitations
+## Limitations and responsible use
 
-The data represent Taiwan in 2005, not current Indian borrowers or modern lending portfolios. Demographic fields are present. Complete a no-demographics sensitivity model and fairness review before any real-world use. Model scores are not separately calibrated probabilities. The 0.50 threshold is technical, not business-approved. No production or external validation has been performed.
+The data represent Taiwan in 2005, not current Indian borrowers. Demographic fields are present. Complete a no-demographics sensitivity model and fairness review before any real use. Scores are not separately calibrated probabilities. The 0.50 threshold is technical, not business-approved. No production or recent external validation has been performed.
 
 ## Repository contents
 
@@ -52,9 +52,10 @@ src/train_model.py
 notebooks/
 models/model_metadata.json
 reports/
+.github/workflows/build-model.yml
 ```
 
-The original workbook, customer-level CSV and binary joblib model are not in this GitHub commit. This avoids publishing customer-level data or a large pickle through the text-file publishing route. Download the data from UCI and follow `data/README.md`. The Prediction page stays disabled until the trusted model artifact is added.
+The raw workbook, customer-level CSV and binary joblib model are not in this public text commit. The model-build workflow can reproduce the artifact from the official UCI source. Do not publish the customer-level dataset. The Prediction page remains disabled until the trusted model artifact is added.
 
 ## Run locally
 
@@ -65,24 +66,27 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-1. Download the UCI Excel workbook; save as `data/default_of_credit_card_clients.xlsx`.
+1. Download the UCI workbook to `data/` (either `default of credit card clients.xls` or `default_of_credit_card_clients.xlsx`).
 2. Run `python src/prepare_data.py`.
 3. Run `python src/train_model.py`.
-4. Copy the resulting `models/credit_default_pipeline.joblib` from your local project package (or regenerate it).
-5. Run `streamlit run app.py`.
+4. Run `streamlit run app.py`.
 
-## Deployment
+## Generate the model in GitHub Actions
 
-After the binary model artifact is present and locally tested, deploy from [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`. Do not claim deployment until the public app and prediction flow have been tested.
+The workflow `.github/workflows/build-model.yml` is manually triggered. In GitHub, open **Actions → Build and publish credit-risk model → Run workflow** on the `main` branch. It downloads the official UCI workbook, recreates the CSV and model, then commits the model artifact and updated metadata. Check that the run succeeds before deploying.
+
+## Streamlit deployment
+
+After the model artifact is present on `main`, deploy on [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`. Test all three pages and a sample prediction. Add the live URL only after successful public-browser testing.
 
 ## Five-member work plan
 
 | Member | Lead |
 |---|---|
-| 1 | Business problem and dataset source |
+| 1 | Business case and data source |
 | 2 | Data audit and EDA |
-| 3 | ML development and reproducibility |
-| 4 | Evaluation, thresholds, fairness and business interpretation |
-| 5 | Streamlit, GitHub, report coordination and deployment |
+| 3 | ML development |
+| 4 | Evaluation, threshold, fairness and business interpretation |
+| 5 | Streamlit, GitHub and deployment |
 
-Every member must understand the complete workflow and be able to defend the decisions. This is an academic prototype, not an approved credit decision system.
+All members should understand the full workflow and defend each decision. This is an academic prototype, not an approved credit decision system.
