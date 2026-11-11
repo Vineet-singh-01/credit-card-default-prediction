@@ -1,0 +1,4 @@
+Model,Accuracy,Precision_default,Recall_default,F1_default,ROC_AUC,PR_AUC_AveragePrecision
+Logistic Regression,0.813333,0.702439,0.271186,0.391304,0.712013,0.493546
+Decision Tree,0.761667,0.467409,0.553672,0.506897,0.756673,0.517774
+Random Forest,0.789583,0.523297,0.549906,0.536272,0.785088,0.545609

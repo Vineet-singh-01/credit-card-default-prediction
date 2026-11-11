@@ -1,0 +1,5 @@
+[
+  {"model":"Logistic Regression","accuracy":0.8133333333,"precision_default":0.7024390244,"recall_default":0.2711864407,"f1_default":0.3913043478,"roc_auc":0.7120125267,"average_precision":0.4935460598},
+  {"model":"Decision Tree","accuracy":0.7616666667,"precision_default":0.4674085851,"recall_default":0.5536723164,"f1_default":0.5068965517,"roc_auc":0.7566732061,"average_precision":0.5177740445},
+  {"model":"Random Forest","accuracy":0.7895833333,"precision_default":0.5232974910,"recall_default":0.5499058380,"f1_default":0.5362718090,"roc_auc":0.7850880508,"average_precision":0.5456091069}
+]
