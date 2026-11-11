@@ -79,9 +79,22 @@ streamlit run app.py
 
 The workflow `.github/workflows/build-model.yml` is manually triggered. It downloads the official UCI workbook, recreates the canonical data and model, then commits the model artifact and updated metadata. The latest run completed successfully; see [GitHub Actions](https://github.com/Vineet-singh-01/credit-card-default-prediction/actions).
 
+## Streamlit application
+
+The updated `app.py` is based on the group's uploaded application file and contains:
+
+- Three workspaces: Business Overview, Data Insights and Prediction.
+- Data Insights tabs for repayment behaviour, customer segments, validation model signals and model performance.
+- Audit readers that accept grouped counts stored as either `n` or `count`, avoiding the earlier chart KeyError.
+- Human-readable education, marital-status, gender and repayment-status dropdowns. Original dataset codes are passed to the model internally.
+- Synthetic quick-fill profiles, reset-all control, six-month bill/payment inputs and descriptive profile indicators.
+- Four illustrative model-score bands, a technical threshold slider, management-review guidance and CSV assessment export.
+
+The three synthetic demo profiles were checked against the saved pipeline and produced distinct uncalibrated scores: 1.44%, 25.69% and 78.17%. The score is not separately calibrated, and the categories are interface aids rather than validated risk grades.
+
 ## Streamlit deployment
 
-Deploy on [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`. Test all three pages and a sample prediction before sharing the public app URL. Deployment has not yet been confirmed.
+Deploy on [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`, Python 3.11. Test all three pages, Data Insights charts, quick profiles, manual input changes, reset, threshold slider and CSV export. Deployment is not marked complete until the live browser tests pass.
 
 ## Five-member work plan
 
