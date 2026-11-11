@@ -19,3 +19,18 @@ data/*.csv
 # Do not commit serialized ML models by default. The approved GitHub Actions workflow
 # uses git add -f for the generated model artifact after training from UCI.
 models/*.joblib
+
+# React frontend build outputs
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Local prediction history / runtime state
+backend/data/*.sqlite3
+backend/data/*.sqlite3-shm
+backend/data/*.sqlite3-wal
+
+# Local environment files
+frontend/.env
+backend/.env
+
