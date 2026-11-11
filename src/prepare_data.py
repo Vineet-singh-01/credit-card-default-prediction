@@ -26,16 +26,18 @@ def main():
     if df[TARGET].isna().any() or not set(df[TARGET].dropna().unique()).issubset({0,1}): raise ValueError("Target must contain only 0/1 and no missing values.")
     df.to_csv(OUTPUT,index=False)
     df["credit_limit_band"]=pd.cut(df["LIMIT_BAL"],[-1,50000,100000,200000,300000,float("inf")],labels=["<=50k","50k–100k","100k–200k","200k–300k",">300k"],include_lowest=True)
-    df["age_band"]=pd.cut(df["AGE"],[0,25,35,45,55,100],labels=["18–25","26–35","36–45","46–55","56+"],include_lowest=True)
+    df["age_band"]=pd.cut(df["AGE"],[20,29,39,49,59,120],labels=["21–29","30–39","40–49","50–59","60+"],include_lowest=True)
     audit={
-      "source_file":source.name,"sheet":"Data","rows":int(len(df)),"columns":int(df.shape[1]-4),"predictor_count":int(df.shape[1]-4),
+      "source_file":source.name,"sheet":"Data","header_note":"Actual variable names are on spreadsheet row 2; row 1 contains generic X1–X23/Y labels.","rows":int(len(df)),"columns":int(df.shape[1]-2),"predictor_count":int(df.shape[1]-4),
       "missing_cells":int(df.iloc[:,:-2].isna().sum().sum()),"exact_duplicate_rows":int(df.duplicated(subset=df.columns[:25]).sum()),
       "unique_ids":int(df["ID"].nunique()),"target":TARGET,
       "target_counts":{str(int(k)):int(v) for k,v in df[TARGET].value_counts().sort_index().items()},
       "target_pct":{str(int(k)):round(float(v*100),2) for k,v in df[TARGET].value_counts(normalize=True).sort_index().items()},
       "default_rate_by_PAY_0":rate_summary(df,"PAY_0"),
       "default_rate_by_limit_band":rate_summary(df.dropna(subset=["credit_limit_band"]),"credit_limit_band"),
-      "default_rate_by_age_band":rate_summary(df.dropna(subset=["age_band"]),"age_band")
+      "default_rate_by_age_band":rate_summary(df.dropna(subset=["age_band"]),"age_band"),
+      "default_rate_by_education":rate_summary(df,"EDUCATION"),
+      "categorical_code_counts":{col:{str(int(k)):int(v) for k,v in df[col].value_counts().sort_index().items()} for col in ["SEX","EDUCATION","MARRIAGE","PAY_0"]}
     }
     reports=ROOT/"reports";reports.mkdir(exist_ok=True)
     (reports/"dataset_audit.json").write_text(json.dumps(audit,indent=2,ensure_ascii=False),encoding="utf-8")
