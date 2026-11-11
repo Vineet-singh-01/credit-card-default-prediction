@@ -13,9 +13,10 @@ The latest GitHub Actions run completed successfully and generated `models/credi
 3. Repository: `Vineet-singh-01/credit-card-default-prediction`.
 4. Branch: `main`.
 5. Main file path: `app.py`.
-6. Choose an optional memorable subdomain, then click **Deploy**.
-7. Check build logs. Open the public app and test Business Overview, Data Insights, and a sample Prediction.
-8. Add the live URL to README only after the public-browser test succeeds.
+6. Open **Advanced settings** and select **Python 3.11**. The model was built with Python 3.11 and the pinned scikit-learn/joblib versions; matching the runtime reduces serialized-model compatibility risk.
+7. Choose an optional memorable subdomain, then click **Deploy**.
+8. Check build logs. Open the public app and test Business Overview, Data Insights, and a sample Prediction.
+9. Add the live URL to README only after the public-browser test succeeds.
 
 The application uses no secrets. Never commit tokens or credentials.
 
