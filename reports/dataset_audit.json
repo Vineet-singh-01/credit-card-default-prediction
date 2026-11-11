@@ -1,22 +1,19 @@
 {
-  "source_file":"Untitled spreadsheet.xlsx","sheet":"Data","rows":30000,"columns":25,"predictor_count":23,
-  "header_note":"Spreadsheet row 1 contains generic X1-X23/Y labels; actual variable names are on row 2.",
-  "missing_cells":0,"exact_duplicate_rows":0,"unique_ids":30000,
-  "target":"default payment next month",
-  "target_counts":{"0":23364,"1":6636},"target_pct":{"0":77.88,"1":22.12},
-  "train_rows":21600,"validation_rows":2400,"test_rows":6000,
-  "default_rate_by_PAY_0":{
-    "-2":{"n":2759,"defaults":365,"rate_pct":13.23},"-1":{"n":5686,"defaults":954,"rate_pct":16.78},
-    "0":{"n":14737,"defaults":1888,"rate_pct":12.81},"1":{"n":3688,"defaults":1252,"rate_pct":33.95},
-    "2":{"n":2667,"defaults":1844,"rate_pct":69.14},"3":{"n":322,"defaults":244,"rate_pct":75.78},
-    "4":{"n":76,"defaults":52,"rate_pct":68.42},"5":{"n":26,"defaults":13,"rate_pct":50.0},
-    "6":{"n":11,"defaults":6,"rate_pct":54.55},"7":{"n":9,"defaults":7,"rate_pct":77.78},"8":{"n":19,"defaults":11,"rate_pct":57.89}},
-  "default_rate_by_limit_band":{
-    "<=50k":{"n":7676,"defaults":2440,"rate_pct":31.79},"50k-100k":{"n":4822,"defaults":1244,"rate_pct":25.8},
-    "100k-200k":{"n":7880,"defaults":1535,"rate_pct":19.48},"200k-300k":{"n":5059,"defaults":812,"rate_pct":16.05},
-    ">300k":{"n":4563,"defaults":605,"rate_pct":13.26}},
-  "default_rate_by_age_band":{
-    "21-29":{"n":9618,"defaults":2197,"rate_pct":22.84},"30-39":{"n":11238,"defaults":2276,"rate_pct":20.25},
-    "40-49":{"n":6464,"defaults":1485,"rate_pct":22.97},"50-59":{"n":2341,"defaults":582,"rate_pct":24.86},
-    "60+":{"n":339,"defaults":96,"rate_pct":28.32}}
+  "source_file": "default of credit card clients.xls",
+  "sheet": "Data",
+  "rows": 30000,
+  "columns": 25,
+  "predictor_count": 23,
+  "missing_cells": 0,
+  "exact_duplicate_rows": 0,
+  "unique_ids": 30000,
+  "target": "default payment next month",
+  "target_counts": {
+    "0": 23364,
+    "1": 6636
+  },
+  "target_pct": {
+    "0": 77.88,
+    "1": 22.12
+  }
 }
