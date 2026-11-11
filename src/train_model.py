@@ -13,6 +13,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, average_precision_score, brier_score_loss, confusion_matrix
+from sklearn.inspection import permutation_importance
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT/"data"/"credit_card_default_clean.csv"
@@ -49,6 +50,12 @@ def main():
         p=model.predict_proba(Xval)[:,1]; pred=(p>=.5).astype(int)
         results.append({"model":name,"accuracy":float(accuracy_score(yval,pred)),"precision_default":float(precision_score(yval,pred,zero_division=0)),"recall_default":float(recall_score(yval,pred,zero_division=0)),"f1_default":float(f1_score(yval,pred,zero_division=0)),"roc_auc":float(roc_auc_score(yval,p)),"average_precision":float(average_precision_score(yval,p))})
     selected=max(results,key=lambda r:(r["f1_default"],r["roc_auc"]))["model"]
+    # Validation-only permutation importance; the held-out test set remains untouched.
+    importance_result=permutation_importance(candidates[selected],Xval,yval,scoring="average_precision",n_repeats=5,random_state=42,n_jobs=-1)
+    importance_rows=[
+        {"feature":names[i],"mean_ap_drop":float(importance_result.importances_mean[i]),"std":float(importance_result.importances_std[i])}
+        for i in np.argsort(importance_result.importances_mean)[::-1]
+    ]
     final_model=candidates[selected].fit(Xdev,ydev)
     p=final_model.predict_proba(Xtest)[:,1]; pred=(p>=.5).astype(int)
     cm=confusion_matrix(ytest,pred,labels=[0,1])
@@ -59,7 +66,15 @@ def main():
     (ROOT/"models"/"model_metadata.json").write_text(json.dumps(meta,indent=2),encoding="utf-8")
     (ROOT/"reports"/"validation_model_comparison.json").write_text(json.dumps(results,indent=2),encoding="utf-8")
     (ROOT/"reports"/"final_test_metrics.json").write_text(json.dumps(final,indent=2),encoding="utf-8")
-    print(json.dumps({"validation":results,"test":final},indent=2))
+    audit_path=ROOT/"reports"/"dataset_audit.json"
+    if audit_path.exists():
+        audit=json.loads(audit_path.read_text(encoding="utf-8"))
+        audit["permutation_importance_validation"]=importance_rows
+        audit["train_rows"]=int(len(Xtrain))
+        audit["validation_rows"]=int(len(Xval))
+        audit["test_rows"]=int(len(Xtest))
+        audit_path.write_text(json.dumps(audit,indent=2,ensure_ascii=False),encoding="utf-8")
+    print(json.dumps({"validation":results,"test":final,"top_validation_importance":importance_rows[:10]},indent=2))
 
 if __name__ == "__main__":
     main()
