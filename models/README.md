@@ -1,7 +1,9 @@
 # Model artifact
 
-The selected preliminary Random Forest pipeline is generated locally as `credit_default_pipeline.joblib`; it includes preprocessing and estimator. Recreate it using `python src/train_model.py` after preparing the data.
+The preliminary Random Forest pipeline `credit_default_pipeline.joblib` has been generated successfully by the GitHub Actions workflow and is present in this directory. It contains the fitted preprocessing and estimator. Metadata and held-out test metrics are recorded in `model_metadata.json` and `../reports/final_test_metrics.json`.
 
-The binary artifact is not included in this GitHub text commit. The app keeps Prediction disabled until the trusted artifact and metadata are present. Do not deploy the Prediction page before loading and testing the model.
+To reproduce the artifact, run `python src/prepare_data.py` and `python src/train_model.py` after obtaining the UCI workbook.
 
-The score is not separately calibrated. Joblib/pickle should only load trusted files because deserialisation can execute code.
+**Important limitations:** the score is not separately calibrated, and the 0.50 threshold is a technical default rather than a business-approved cutoff. The model is for academic demonstration and human-review support only.
+
+Only load joblib artifacts from trusted sources because deserialisation can execute code.
