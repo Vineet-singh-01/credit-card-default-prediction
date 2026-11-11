@@ -50,12 +50,13 @@ requirements.txt
 src/prepare_data.py
 src/train_model.py
 notebooks/
+models/credit_default_pipeline.joblib
 models/model_metadata.json
 reports/
 .github/workflows/build-model.yml
 ```
 
-The raw workbook, customer-level CSV and binary joblib model are not in this public text commit. The model-build workflow can reproduce the artifact from the official UCI source. Do not publish the customer-level dataset. The Prediction page remains disabled until the trusted model artifact is added.
+The model artifact was generated successfully by GitHub Actions and is present on `main`. The original workbook and customer-level CSV are intentionally excluded from this public repository. The Prediction page can now load the committed model artifact.
 
 ## Run locally
 
@@ -66,18 +67,21 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-1. Download the UCI workbook to `data/` (either `default of credit card clients.xls` or `default_of_credit_card_clients.xlsx`).
-2. Run `python src/prepare_data.py`.
-3. Run `python src/train_model.py`.
-4. Run `streamlit run app.py`.
+To reproduce the pipeline, download the UCI workbook and place it in `data/` as `default of credit card clients.xls` or `default_of_credit_card_clients.xlsx`, then run:
 
-## Generate the model in GitHub Actions
+```bash
+python src/prepare_data.py
+python src/train_model.py
+streamlit run app.py
+```
 
-The workflow `.github/workflows/build-model.yml` is manually triggered. In GitHub, open **Actions → Build and publish credit-risk model → Run workflow** on the `main` branch. It downloads the official UCI workbook, recreates the CSV and model, then commits the model artifact and updated metadata. Check that the run succeeds before deploying.
+## Model build workflow
+
+The workflow `.github/workflows/build-model.yml` is manually triggered. It downloads the official UCI workbook, recreates the canonical data and model, then commits the model artifact and updated metadata. The latest run completed successfully; see [GitHub Actions](https://github.com/Vineet-singh-01/credit-card-default-prediction/actions).
 
 ## Streamlit deployment
 
-After the model artifact is present on `main`, deploy on [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`. Test all three pages and a sample prediction. Add the live URL only after successful public-browser testing.
+Deploy on [Streamlit Community Cloud](https://share.streamlit.io/): repository `Vineet-singh-01/credit-card-default-prediction`, branch `main`, main file `app.py`. Test all three pages and a sample prediction before sharing the public app URL. Deployment has not yet been confirmed.
 
 ## Five-member work plan
 
