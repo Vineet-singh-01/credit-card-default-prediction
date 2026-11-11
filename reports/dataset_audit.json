@@ -1,8 +1,9 @@
 {
-  "source_file": "default of credit card clients.xls",
+  "source_file": "default_of_credit_card_clients.xlsx",
   "sheet": "Data",
+  "header_note": "Actual variable names are on spreadsheet row 2; row 1 contains generic X1-X23/Y labels.",
   "rows": 30000,
-  "columns": 23,
+  "columns": 25,
   "predictor_count": 23,
   "missing_cells": 0,
   "exact_duplicate_rows": 0,
@@ -17,114 +18,240 @@
     "1": 22.12
   },
   "default_rate_by_PAY_0": {
-    "-2": {
-      "count": 2759,
-      "defaults": 365,
-      "rate_pct": 13.23
-    },
-    "-1": {
-      "count": 5686,
-      "defaults": 954,
-      "rate_pct": 16.78
-    },
     "0": {
-      "count": 14737,
+      "n": 14737,
       "defaults": 1888,
       "rate_pct": 12.81
     },
     "1": {
-      "count": 3688,
+      "n": 3688,
       "defaults": 1252,
       "rate_pct": 33.95
     },
     "2": {
-      "count": 2667,
+      "n": 2667,
       "defaults": 1844,
       "rate_pct": 69.14
     },
     "3": {
-      "count": 322,
+      "n": 322,
       "defaults": 244,
       "rate_pct": 75.78
     },
     "4": {
-      "count": 76,
+      "n": 76,
       "defaults": 52,
       "rate_pct": 68.42
     },
     "5": {
-      "count": 26,
+      "n": 26,
       "defaults": 13,
-      "rate_pct": 50.0
+      "rate_pct": 50
     },
     "6": {
-      "count": 11,
+      "n": 11,
       "defaults": 6,
       "rate_pct": 54.55
     },
     "7": {
-      "count": 9,
+      "n": 9,
       "defaults": 7,
       "rate_pct": 77.78
     },
     "8": {
-      "count": 19,
+      "n": 19,
       "defaults": 11,
       "rate_pct": 57.89
+    },
+    "-2": {
+      "n": 2759,
+      "defaults": 365,
+      "rate_pct": 13.23
+    },
+    "-1": {
+      "n": 5686,
+      "defaults": 954,
+      "rate_pct": 16.78
     }
   },
   "default_rate_by_limit_band": {
     "<=50k": {
-      "count": 7676,
+      "n": 7676,
       "defaults": 2440,
       "rate_pct": 31.79
     },
     "50k–100k": {
-      "count": 4822,
+      "n": 4822,
       "defaults": 1244,
       "rate_pct": 25.8
     },
     "100k–200k": {
-      "count": 7880,
+      "n": 7880,
       "defaults": 1535,
       "rate_pct": 19.48
     },
     "200k–300k": {
-      "count": 5059,
+      "n": 5059,
       "defaults": 812,
       "rate_pct": 16.05
     },
     ">300k": {
-      "count": 4563,
+      "n": 4563,
       "defaults": 605,
       "rate_pct": 13.26
     }
   },
   "default_rate_by_age_band": {
-    "18–25": {
-      "count": 3871,
-      "defaults": 1032,
-      "rate_pct": 26.66
+    "21–29": {
+      "n": 9618,
+      "defaults": 2197,
+      "rate_pct": 22.84
     },
-    "26–35": {
-      "count": 12938,
-      "defaults": 2565,
-      "rate_pct": 19.83
+    "30–39": {
+      "n": 11238,
+      "defaults": 2276,
+      "rate_pct": 20.25
     },
-    "36–45": {
-      "count": 8522,
-      "defaults": 1861,
-      "rate_pct": 21.84
+    "40–49": {
+      "n": 6464,
+      "defaults": 1485,
+      "rate_pct": 22.97
     },
-    "46–55": {
-      "count": 3825,
-      "defaults": 954,
-      "rate_pct": 24.94
+    "50–59": {
+      "n": 2341,
+      "defaults": 582,
+      "rate_pct": 24.86
     },
-    "56+": {
-      "count": 844,
-      "defaults": 224,
-      "rate_pct": 26.54
+    "60+": {
+      "n": 339,
+      "defaults": 96,
+      "rate_pct": 28.32
     }
-  }
+  },
+  "default_rate_by_education": {
+    "0": {
+      "n": 14,
+      "defaults": 0,
+      "rate_pct": 0
+    },
+    "1": {
+      "n": 10585,
+      "defaults": 2036,
+      "rate_pct": 19.23
+    },
+    "2": {
+      "n": 14030,
+      "defaults": 3330,
+      "rate_pct": 23.73
+    },
+    "3": {
+      "n": 4917,
+      "defaults": 1237,
+      "rate_pct": 25.16
+    },
+    "4": {
+      "n": 123,
+      "defaults": 7,
+      "rate_pct": 5.69
+    },
+    "5": {
+      "n": 280,
+      "defaults": 18,
+      "rate_pct": 6.43
+    },
+    "6": {
+      "n": 51,
+      "defaults": 8,
+      "rate_pct": 15.69
+    }
+  },
+  "categorical_code_counts": {
+    "SEX": {
+      "1": 11888,
+      "2": 18112
+    },
+    "EDUCATION": {
+      "0": 14,
+      "1": 10585,
+      "2": 14030,
+      "3": 4917,
+      "4": 123,
+      "5": 280,
+      "6": 51
+    },
+    "MARRIAGE": {
+      "0": 54,
+      "1": 13659,
+      "2": 15964,
+      "3": 323
+    },
+    "PAY_0": {
+      "0": 14737,
+      "1": 3688,
+      "2": 2667,
+      "3": 322,
+      "4": 76,
+      "5": 26,
+      "6": 11,
+      "7": 9,
+      "8": 19,
+      "-2": 2759,
+      "-1": 5686
+    }
+  },
+  "permutation_importance_validation": [
+    {
+      "feature": "PAY_0",
+      "mean_ap_drop": 0.17082550548003023,
+      "std": 0.003158621495765953
+    },
+    {
+      "feature": "LIMIT_BAL",
+      "mean_ap_drop": 0.01152027912438187,
+      "std": 0.003761481402448979
+    },
+    {
+      "feature": "BILL_AMT1",
+      "mean_ap_drop": 0.00875436514894814,
+      "std": 0.005850139158512792
+    },
+    {
+      "feature": "PAY_2",
+      "mean_ap_drop": 0.007852210785231017,
+      "std": 0.006936098161656655
+    },
+    {
+      "feature": "PAY_4",
+      "mean_ap_drop": 0.006094119937837173,
+      "std": 0.003469578145452965
+    },
+    {
+      "feature": "PAY_AMT1",
+      "mean_ap_drop": 0.005616597626767626,
+      "std": 0.001399841606547295
+    },
+    {
+      "feature": "PAY_AMT3",
+      "mean_ap_drop": 0.004442032202974811,
+      "std": 0.00456914621240489
+    },
+    {
+      "feature": "PAY_3",
+      "mean_ap_drop": 0.004410379512636986,
+      "std": 0.001814330783819944
+    },
+    {
+      "feature": "AGE",
+      "mean_ap_drop": 0.003985739131585464,
+      "std": 0.002329068030806178
+    },
+    {
+      "feature": "MARRIAGE",
+      "mean_ap_drop": 0.0039036358995548025,
+      "std": 0.0012880913943987878
+    }
+  ],
+  "train_rows": 21600,
+  "validation_rows": 2400,
+  "test_rows": 6000
 }
